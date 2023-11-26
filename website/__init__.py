@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, Blueprint
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 
@@ -13,10 +13,15 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     db.init_app(app)
 
-    from .models import User, fiverr_order
+    from .views import views
+    from .trackData import trackData
+
+    app.register_blueprint(views, url_prefix='/')
+    app.register_blueprint(trackData, url_prefix='/')
+
+    from .models import SoundcloudTrack, FiverrOrder
 
     with app.app_context():
-
         db.create_all()
 
     return app

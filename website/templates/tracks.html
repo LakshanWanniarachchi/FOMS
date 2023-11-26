@@ -1,0 +1,109 @@
+{% extends "base.html"%}{%block title%}Orders{%endblock%} {% block content%}
+{%for track in tracks %}
+
+<style>
+  .custom-column {
+    padding: 0.5rem; /* Padding within each column */
+    margin: 0; /* Remove margin between columns */
+  }
+</style>
+
+<div class="container">
+  <div class="row my-2 border rounded p-2">
+    <div
+      class="col-md-2 d-flex align-items-center justify-content-center custom-column"
+    >
+      <p class="text-center">
+        <small class="text-body-secondary">Track No:</small
+        ><br />{{track['soundcloud_id']}}
+      </p>
+    </div>
+    <div
+      class="col-md-2 d-flex align-items-center justify-content-center custom-column"
+    >
+      <p class="text-center">
+        <small class="text-body-secondary">Account:</small
+        ><br />{{track['soundcloud_track']}}
+        <input type="hidden" id="url" value="{{track['soundcloud_track']}}" />
+      </p>
+    </div>
+    <div
+      class="col-md-2 d-flex align-items-center justify-content-center custom-column"
+    >
+      <p class="text-center">
+        <small class="text-body-secondary">DeadLine :</small><br />
+      </p>
+    </div>
+    <div
+      class="col-md-2 d-flex align-items-center justify-content-center custom-column"
+    >
+      <ul class="list-group">
+        <li
+          class="list-group-item d-flex justify-content-between align-items-center"
+        >
+          Plays
+          <span class="badge bg-primary rounded-pill" id="Plays"></span>
+        </li>
+        <li
+          class="list-group-item d-flex justify-content-between align-items-center"
+        >
+          Like
+          <span class="badge bg-primary rounded-pill" id="Like"></span>
+        </li>
+        <li
+          class="list-group-item d-flex justify-content-between align-items-center"
+        >
+          Repost
+          <span class="badge bg-primary rounded-pill" id="Repost"></span>
+        </li>
+        <li
+          class="list-group-item d-flex justify-content-between align-items-center"
+        >
+          Comment
+          <span class="badge bg-primary rounded-pill" id="Comment"></span>
+        </li>
+        <li
+          class="list-group-item d-flex justify-content-between align-items-center"
+        >
+          followers
+          <span class="badge bg-primary rounded-pill" id="followers"></span>
+        </li>
+      </ul>
+    </div>
+    <div
+      class="col-md-2 d-flex align-items-center justify-content-center custom-column"
+    >
+      <span class="badge text-bg-success">Success</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  url = document.getElementById("url").value;
+  console.log(url);
+
+  fetch("/trackData", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify(url),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      // Handle the response from the server
+      console.log(data);
+
+      document.getElementById("Plays").innerHTML = data[0]["playback_count"];
+      document.getElementById("Like").innerHTML = data[0]["likes_count"];
+      document.getElementById("Repost").innerHTML = data[0]["reposts_count"];
+      document.getElementById("Comment").innerHTML = data[0]["comment_count"];
+      document.getElementById("followers").innerHTML =
+        data[0]["followers_count"];
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+</script>
+
+{% endfor %}{%endblock%}
