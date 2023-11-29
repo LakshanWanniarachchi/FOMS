@@ -96,6 +96,14 @@
     >
       <p class="text-center">
         <small class="text-body-secondary">Order No:</small
+        ><br />{{order['foid']}}
+      </p>
+    </div>
+    <div
+      class="col-md-2 d-flex align-items-center justify-content-center custom-column"
+    >
+      <p class="text-center">
+        <small class="text-body-secondary">Order No:</small
         ><br />{{order['fono']}}
       </p>
     </div>
@@ -112,7 +120,9 @@
     >
       <p class="text-center">
         <small class="text-body-secondary">DeadLine :</small
-        ><br />{{order['date']}}
+        ><br />{{time[order['foid']]['date']}}d :
+        {{time[order['foid']]['hours']}}h :
+        {{time[order['foid']]['minutes']}}m<br />
       </p>
     </div>
 
@@ -123,7 +133,7 @@
     </div>
 
     <div
-      class="col-md-2 d-flex align-items-center justify-content-center custom-column"
+      class="col-md-1 d-flex align-items-center justify-content-center custom-column"
     >
       <!-- <button type="button" class="btn btn-secondary">Secondary</button> -->
 
@@ -131,7 +141,22 @@
         >View</a
       >
     </div>
+
+    <div
+      class="col-md-1 d-flex align-items-center justify-content-center custom-column"
+    >
+      <form action="delete" method="post">
+        <input type="hidden" value="{{order['foid']}}" name="foid" />
+        <input type="hidden" value="order" name="redirect_page" />
+        <button
+          type="submit"
+          class="btn-close"
+          id="submitBtn"
+          value="submit"
+          aria-label="Close"
+        ></button>
+      </form>
+    </div>
   </div>
 </div>
-
 {% endfor %} {%endblock%}

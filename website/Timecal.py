@@ -8,7 +8,7 @@ def calculate(orders):
 
     asia_colombo_tz = pytz.timezone('Asia/Colombo')
 
-    time = []
+    time = {}
 
     for order in orders:
 
@@ -21,7 +21,7 @@ def calculate(orders):
         hours, remainder = divmod(remain_time.seconds, 3600)
         minutes, seconds = divmod(remainder, 60)
 
-        time.append({order.foid: {
+        time[order.foid] = {
 
 
 
@@ -29,5 +29,5 @@ def calculate(orders):
             'hours': hours,
             'minutes': minutes,
 
-        }})
+        }
     return time

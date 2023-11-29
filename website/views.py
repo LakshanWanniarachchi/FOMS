@@ -97,6 +97,8 @@ def order():
 
     orders = FiverrOrder.query.order_by(desc(FiverrOrder.foid)).all()
 
+    time = calculate(orders)
+
     # for order in orders:
 
     #     print(
@@ -117,7 +119,7 @@ def order():
 
     # jsonify(orders_json)
 
-    return render_template('Activeorder.html', orders=orders)
+    return render_template('Activeorder.html', orders=orders, time=time)
 
 
 @views.route('/tracks', methods=['GET', 'POST'])
@@ -140,15 +142,9 @@ def jayanthi_order_load():
 
     account_name = 'Jayanthi'  # Replace with the account_name you want to query
     orders = FiverrOrder.query.filter_by(
-        account_name=account_name).all()
+        account_name=account_name).order_by(desc(FiverrOrder.foid)).all()
 
     time = calculate(orders)
-
-    for order in orders:
-
-        print(order.foid)
-
-    print(time)
 
     # asia_colombo_tz = pytz.timezone('Asia/Colombo')
 
@@ -177,4 +173,47 @@ def sajith_order_load():
     orders = FiverrOrder.query.filter_by(
         account_name=account_name).order_by(desc(FiverrOrder.foid)).all()
 
-    return render_template("Sajith.html", orders=orders)
+    # .order_by(desc(FiverrOrder.foid))
+
+    time = calculate(orders)
+
+    return render_template("Sajith.html", orders=orders, time=time)
+
+
+@views.route('/Ishara')
+def Ishara_order_load():
+
+    account_name = 'Ishara'  # Replace with the account_name you want to query
+    orders = FiverrOrder.query.filter_by(
+        account_name=account_name).order_by(desc(FiverrOrder.foid)).all()
+
+    # .order_by(desc(FiverrOrder.foid))
+
+    time = calculate(orders)
+
+    return render_template("Ishara.html", orders=orders, time=time)
+
+
+@views.route('/delete', methods=['POST'])
+def track_data_delete():
+
+    if request.method == 'POST':
+
+        foid = request.form.get("foid")
+        redirect_page = request.form.get("redirect_page")
+
+        soundcloud_track = SoundcloudTrack.query.filter_by(
+            foid=foid).first()
+
+        db.session.delete(soundcloud_track)
+        db.session.commit()
+
+        track_data = FiverrOrder.query.filter_by(
+            foid=foid).first()
+
+        db.session.delete(track_data)
+        db.session.commit()
+
+        print('done')
+
+        return redirect('/'+redirect_page)
