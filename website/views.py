@@ -36,7 +36,9 @@ def for_load():
 
         delta = timedelta(days=Days, hours=Hours, minutes=Minutes)
 
-        End_Date = datetime.now(tz=pytz.timezone('Asia/Colombo'))+delta
+        End_Date = datetime.now()+delta
+
+        # tz=pytz.timezone('Asia/Colombo')
 
         print(End_Date)
 

@@ -12,9 +12,9 @@ def calculate(orders):
 
     for order in orders:
 
-        current_time = datetime.now(tz=asia_colombo_tz)
+        current_time = datetime.now()
 
-        End_date = order.date.astimezone(asia_colombo_tz)
+        End_date = order.date.astimezone()
 
         remain_time = End_date - current_time
 
