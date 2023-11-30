@@ -44,14 +44,14 @@ def get_Soundcloud_track_data(url):
 
     data = json.loads(json_data)
 
-    print(json.dumps(data, indent=2))
+    # print(json.dumps(data, indent=2))
 
     # Access the "likes_count" field
-    likes_count = int(data[-1]['data']['likes_count'])
-    playback_count = int(data[-1]['data']['playback_count'])
-    reposts_count = int(data[-1]['data']['reposts_count'])
-    comment_count = int(data[-1]['data']['comment_count'])
-    followers_count = int(data[-2]['data']['followers_count'])
+    likes_count = check_track_data(data[-1]['data']['likes_count'])
+    playback_count = check_track_data(data[-1]['data']['playback_count'])
+    reposts_count = check_track_data(data[-1]['data']['reposts_count'])
+    comment_count = check_track_data(data[-1]['data']['comment_count'])
+    followers_count = check_track_data(data[-2]['data']['followers_count'])
 
     # Print the result
     # print("Likes Count:", likes_count)
@@ -72,3 +72,13 @@ def get_Soundcloud_track_data(url):
     }]
 
     return result
+
+
+def check_track_data(data):
+
+    if data is not None:
+
+        return data
+    else:
+
+        return None

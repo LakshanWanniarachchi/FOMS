@@ -42,11 +42,11 @@ def for_load():
 
         track_data = get_Soundcloud_track_data(Soundcloud_url)
 
-        plays = int(track_data[0]['playback_count'])
-        likes = int(track_data[0]['likes_count'])
-        repost = int(track_data[0]['reposts_count'])
-        comments = int(track_data[0]['comment_count'])
-        followers = int(track_data[0]['followers_count'])
+        plays = track_data[0]['playback_count']
+        likes = track_data[0]['likes_count']
+        repost = track_data[0]['reposts_count']
+        comments = track_data[0]['comment_count']
+        followers = track_data[0]['followers_count']
 
         new_data = FiverrOrder(fono=fiverr_order_number,
                                account_name=acount_name, date=End_Date)

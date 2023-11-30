@@ -27,16 +27,52 @@
         <input type="hidden" id="url" value="{{track['soundcloud_track']}}" />
       </p>
     </div>
+
     <div
-      class="col-md-2 d-flex align-items-center justify-content-center custom-column"
+      class="col-md-3 d-flex align-items-center justify-content-center custom-column"
     >
-      <p class="text-center">
-        <small class="text-body-secondary">DeadLine :</small><br />
-      </p>
+      <small class="text-body-secondary">Start :</small>
+      <ul class="list-group">
+        <li
+          class="list-group-item d-flex justify-content-between align-items-center"
+        >
+          Plays
+          <span class="badge bg-primary rounded-pill">{{track['plays']}}</span>
+        </li>
+        <li
+          class="list-group-item d-flex justify-content-between align-items-center"
+        >
+          Like
+          <span class="badge bg-primary rounded-pill">{{track['likes']}}</span>
+        </li>
+        <li
+          class="list-group-item d-flex justify-content-between align-items-center"
+        >
+          Repost
+          <span class="badge bg-primary rounded-pill">{{track['repost']}}</span>
+        </li>
+        <li
+          class="list-group-item d-flex justify-content-between align-items-center"
+        >
+          Comment
+          <span class="badge bg-primary rounded-pill"
+            >{{track['comments']}}</span
+          >
+        </li>
+        <li
+          class="list-group-item d-flex justify-content-between align-items-center"
+        >
+          followers
+          <span class="badge bg-primary rounded-pill"
+            >{{track['followers']}}</span
+          >
+        </li>
+      </ul>
     </div>
     <div
       class="col-md-2 d-flex align-items-center justify-content-center custom-column"
     >
+      <small class="text-body-secondary">Now :</small>
       <ul class="list-group">
         <li
           class="list-group-item d-flex justify-content-between align-items-center"
@@ -73,7 +109,7 @@
     <div
       class="col-md-2 d-flex align-items-center justify-content-center custom-column"
     >
-      <span class="badge text-bg-success">Success</span>
+      <span class="badge text-bg-danger">Pendin</span>
     </div>
   </div>
 </div>
