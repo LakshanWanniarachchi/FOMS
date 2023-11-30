@@ -14,7 +14,7 @@ def calculate(orders):
 
         current_time = datetime.now()
 
-        End_date = order.date.astimezone()
+        End_date = order.date
 
         remain_time = End_date - current_time
 
