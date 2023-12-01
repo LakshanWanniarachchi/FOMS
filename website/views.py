@@ -27,66 +27,71 @@ def for_load():
 
     if request.method == 'POST':
 
-        acount_name = request.form.get("account")
-        fiverr_order_number = request.form.get("Fiverr_Oder_Number")
-        Soundcloud_url = request.form.get("url")
-        Hours = int(request.form.get("hours"))
-        Minutes = int(request.form.get("minutes"))
-        Days = int(request.form.get("days"))
+        try:
 
-        delta = timedelta(days=Days, hours=Hours, minutes=Minutes)
+            acount_name = request.form.get("account")
+            fiverr_order_number = request.form.get("Fiverr_Oder_Number")
+            Soundcloud_url = request.form.get("url")
+            Hours = int(request.form.get("hours"))
+            Minutes = int(request.form.get("minutes"))
+            Days = int(request.form.get("days"))
 
-        End_Date = datetime.now()+delta
+            delta = timedelta(days=Days, hours=Hours, minutes=Minutes)
 
-        # tz=pytz.timezone('Asia/Colombo')
+            End_Date = datetime.now()+delta
 
-        print(End_Date)
+            # tz=pytz.timezone('Asia/Colombo')
 
-        track_data = get_Soundcloud_track_data(Soundcloud_url)
+            print(End_Date)
 
-        plays = track_data[0]['playback_count']
-        likes = track_data[0]['likes_count']
-        repost = track_data[0]['reposts_count']
-        comments = track_data[0]['comment_count']
-        followers = track_data[0]['followers_count']
+            track_data = get_Soundcloud_track_data(Soundcloud_url)
 
-        new_data = FiverrOrder(fono=fiverr_order_number,
-                               account_name=acount_name, date=End_Date)
+            plays = track_data[0]['playback_count']
+            likes = track_data[0]['likes_count']
+            repost = track_data[0]['reposts_count']
+            comments = track_data[0]['comment_count']
+            followers = track_data[0]['followers_count']
 
-        print(End_Date)
-        # print(datetime.strptime(End_Date, '%Y-%m-%d').date())
+            new_data = FiverrOrder(fono=fiverr_order_number,
+                                   account_name=acount_name, date=End_Date)
 
-        db.session.add(new_data)
+            print(End_Date)
+            # print(datetime.strptime(End_Date, '%Y-%m-%d').date())
 
-        db.session.commit()
+            db.session.add(new_data)
 
-        # Order_no = FiverrOrder.query.filter_by(
-        #     fono=fiverr_order_number).first()
+            db.session.commit()
 
-        print(new_data.foid)
-        new_track = SoundcloudTrack(soundcloud_track=Soundcloud_url, plays=plays,
-                                    likes=likes, repost=repost,  comments=comments, followers=followers)
+            # Order_no = FiverrOrder.query.filter_by(
+            #     fono=fiverr_order_number).first()
 
-        new_track.foid = new_data.foid
+            print(new_data.foid)
+            new_track = SoundcloudTrack(soundcloud_track=Soundcloud_url, plays=plays,
+                                        likes=likes, repost=repost,  comments=comments, followers=followers)
 
-        db.session.add(new_track)
-        db.session.commit()
+            new_track.foid = new_data.foid
 
-        flash('Track add success',  category='success')
+            db.session.add(new_track)
+            db.session.commit()
 
-        # order_id = 1
-        # fiverr_order = FiverrOrder.query.get(order_id)
+            flash('Track add success',  category='success')
 
-        # if fiverr_order:
-        #     print(
-        #         f"Fiverr Order ID: {fiverr_order.foid}, Order Number: {fiverr_order.foNo}, Account Name: {fiverr_order.account_name}, Date: {fiverr_order.date}")
-        #     for track in fiverr_order.soundcloud_tracks:
-        #         print(
-        #             f"Soundcloud Track ID: {track.track_id}, URL: {track.url}")
-        # else:
-        #     print(f"Fiverr Order with ID {order_id} not found.")
+            # order_id = 1
+            # fiverr_order = FiverrOrder.query.get(order_id)
 
-        return redirect(url_for("views.home"))
+            # if fiverr_order:
+            #     print(
+            #         f"Fiverr Order ID: {fiverr_order.foid}, Order Number: {fiverr_order.foNo}, Account Name: {fiverr_order.account_name}, Date: {fiverr_order.date}")
+            #     for track in fiverr_order.soundcloud_tracks:
+            #         print(
+            #             f"Soundcloud Track ID: {track.track_id}, URL: {track.url}")
+            # else:
+            #     print(f"Fiverr Order with ID {order_id} not found.")
+
+        except Exception as e:
+            print(f"An error occurred: {str(e)}")
+
+            return redirect(url_for("views.home"))
     else:
         return redirect(url_for("views.home"))
 
