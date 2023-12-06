@@ -22,8 +22,12 @@
       class="col-md-2 d-flex align-items-center justify-content-center custom-column"
     >
       <p class="text-center">
-        <small class="text-body-secondary">Account:</small
-        ><br />{{track['soundcloud_track']}}
+        <small class="text-body-secondary">Track URL:</small><br /><a
+          id="Urlname"
+          href="{{track['soundcloud_track']}}"
+          target="_blank"
+        >
+        </a>
         <input type="hidden" id="url" value="{{track['soundcloud_track']}}" />
       </p>
     </div>
@@ -136,6 +140,7 @@
       document.getElementById("Comment").innerHTML = data[0]["comment_count"];
       document.getElementById("followers").innerHTML =
         data[0]["followers_count"];
+      document.getElementById("Urlname").innerHTML = data[0]["title"];
     })
     .catch((error) => {
       console.error("Error:", error);

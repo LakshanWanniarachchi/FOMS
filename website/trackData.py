@@ -52,6 +52,7 @@ def get_Soundcloud_track_data(url):
     reposts_count = check_track_data(data[-1]['data']['reposts_count'])
     comment_count = check_track_data(data[-1]['data']['comment_count'])
     followers_count = check_track_data(data[-2]['data']['followers_count'])
+    title = data[-1]['data']['title']
 
     # Print the result
     # print("Likes Count:", likes_count)
@@ -66,7 +67,8 @@ def get_Soundcloud_track_data(url):
         'likes_count': likes_count,
         'reposts_count': reposts_count,
         'comment_count': comment_count,
-        'followers_count': followers_count
+        'followers_count': followers_count,
+        'title': title
 
 
     }]
