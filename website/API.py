@@ -1,21 +1,19 @@
 
 from requests import post
 import json
+from flask import Blueprint
 
 import datetime
 import time
 import schedule
 
+API = Blueprint('API', __name__)
 
-def job():
-    print("Scheduled task is running at", datetime.datetime.now())
+@API.route('/', method=['GET','POST'])
+def get_plays():
+    
 
-
-job()
-# Define the API endpoint URL
-api_url = "https://www.smm-world.com/api/v1"
-
-#Define the required parameters
+    #Define the required parameters
 api_key = "c292d86d5f7168f0cc32dce1c2904bcbc8722c12da4b5c9964f3af1fffee2f626bf46e2962af058c9608ba59efdff846"
 action = "add"
 service_id = 120
