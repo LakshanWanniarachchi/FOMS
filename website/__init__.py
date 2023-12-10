@@ -15,11 +15,11 @@ def create_app():
 
     from .views import views
     from .trackData import trackData
-    from .API import API
+    from .getplays import getplays
 
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(trackData, url_prefix='/')
-    app.register_blueprint(API, url_prefix='/')
+    app.register_blueprint(getplays, url_prefix='/')
 
     from .models import SoundcloudTrack, FiverrOrder
 
