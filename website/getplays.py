@@ -18,6 +18,7 @@ def smm_plays():
 
         link = request.form.get("url")
         quantity = request.form.get("plays_count")
+        foid = request.form.get("foid")
 
         # Define the API endpoint URL
         api_url = "https://www.smm-world.com/api/v1"
@@ -52,7 +53,7 @@ def smm_plays():
             # Request failed
             flash(f"error:{response_data['error']}", category='error')
 
-        return redirect(url_for("views.load_track"))
+        return redirect('/tracks?foid='+foid)
 
     else:
         return redirect(url_for("views.load_track"))
