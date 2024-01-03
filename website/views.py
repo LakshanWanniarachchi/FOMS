@@ -137,7 +137,7 @@ def load_track():
             foid=foid).all()
         
         order  = FiverrOrder.query.filter_by(
-            foid=foid).all()
+            foid=foid).first()
 
         return render_template('tracks.html', tracks=soundcloud_track , order = order)
     return render_template('tracks.html')
