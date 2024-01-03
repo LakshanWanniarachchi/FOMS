@@ -33,6 +33,7 @@ def for_load():
         Hours = int(request.form.get("hours"))
         Minutes = int(request.form.get("minutes"))
         Days = int(request.form.get("days"))
+        status = request.form.get("OderStatus")
 
         delta = timedelta(days=Days, hours=Hours, minutes=Minutes)
 
@@ -51,7 +52,7 @@ def for_load():
         followers = track_data[0]['followers_count']
 
         new_data = FiverrOrder(fono=fiverr_order_number,
-                               account_name=acount_name, date=End_Date)
+                               account_name=acount_name, date=End_Date,status=status)
 
         print(End_Date)
         # print(datetime.strptime(End_Date, '%Y-%m-%d').date())
@@ -134,8 +135,11 @@ def load_track():
 
         soundcloud_track = SoundcloudTrack.query.filter_by(
             foid=foid).all()
+        
+        order  = FiverrOrder.query.filter_by(
+            foid=foid).all()
 
-        return render_template('tracks.html', tracks=soundcloud_track)
+        return render_template('tracks.html', tracks=soundcloud_track , order = order)
     return render_template('tracks.html')
 
 
@@ -219,3 +223,34 @@ def track_data_delete():
         print('done')
 
         return redirect('/'+redirect_page)
+    
+
+@views.route('/oderstatus',methods=['POST'] )
+def oderstatus():
+
+     if request.method == 'POST':
+         
+          foid = request.form.get("foid") 
+
+          orderstatus = request.form.get("orderstatus")
+
+
+          order = FiverrOrder.query.filter_by(
+            foid=foid).first()
+          
+          order.status = orderstatus
+
+          db.session.commit()
+
+          return redirect('/tracks?foid='+foid)
+
+
+
+
+
+
+
+         
+
+
+

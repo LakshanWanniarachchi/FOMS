@@ -38,6 +38,8 @@ class FiverrOrder(db.Model):
     fono = db.Column(db.String, nullable=False)
     account_name = db.Column(db.String, nullable=False)
     date = db.Column(db.DateTime, nullable=False)
+    status = db.Column(db.String, nullable=False)
+    
 
     soundcloud_tracks = db.relationship(
         'SoundcloudTrack', backref='fiverr_order', lazy='dynamic')
@@ -51,5 +53,6 @@ class SoundcloudTrack(db.Model):
     repost = db.Column(db.Integer)
     comments = db.Column(db.Integer)
     followers = db.Column(db.Integer)
+    
 
     foid = db.Column(db.Integer, db.ForeignKey('fiverr_order.foid'))

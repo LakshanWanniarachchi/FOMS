@@ -113,11 +113,20 @@
     <div
       class="col-md-2 d-flex align-items-center justify-content-center custom-column"
     >
-      <select class="form-select" aria-label="Default select example">
+    <form action="/oderstatus" method="POST">
+      <select class="form-select" aria-label="Default select example" id="orderstatus" name ="orderstatus" >
         <option value="c">Complete</option>
         <option value="p">Pending</option>
-        <option value="r">rivition</option>
+        <option value="r">Revision</option>
       </select>
+
+      <input type="number" name="foid" value="{{track['foid']}}" hidden>
+
+      <button type="submit" class="btn btn-primary" id="submitBtn" value="submit">
+        Submit
+      </button>
+
+      </form>
     </div>
   </div>
 </div>
@@ -158,6 +167,15 @@
 </div>
 
 <script>
+
+     var selectElement = document.getElementById("orderstatus");
+
+      // Set the value using Flask variable
+      selectElement.value = "{{ order['status'] }}";
+
+      console.log("{{ order['status'] }}");
+
+
   url = document.getElementById("url").value;
   console.log(url);
 

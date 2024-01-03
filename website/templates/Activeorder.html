@@ -129,7 +129,16 @@
     <div
       class="col-md-2 d-flex align-items-center justify-content-center custom-column"
     >
+      
+
+      {% if order.status == 'c' %}
+    <span class="badge text-bg-success">Complete</span>
+      {% elif order.status == 'p' %}
       <span class="badge text-bg-danger">Pendin</span>
+      {% elif order.status == 'r' %}
+      <span class="badge text-bg-warning">Revision</span>
+      {%endif%}
+
     </div>
 
     <div
