@@ -1,0 +1,22 @@
+version: "1.0"
+
+services:
+  foms:
+    build: .
+
+    volumes:
+      - static:/website/templates
+
+    ports:
+      - "5000:5000"
+  nginx:
+    build: ./nginx
+    volumes:
+      - static:/website/templates
+    ports:
+      - "80:80"
+    depends_on:
+      - foms
+
+volumes:
+  static:
