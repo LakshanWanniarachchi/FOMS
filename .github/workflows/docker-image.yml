@@ -14,16 +14,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Build and push ${{ matrix.service }} image
-        uses: actions/docker/push@v3  # Pushes the image to Docker Hub
+      - name: Login to Docker registry (optional)
+        uses: docker/login@v2  # Use only if pushing to private registry
         with:
           username: lakshanwanniarachchi
           password: p2hndb@12345
-          
+
+      - name: Build and push ${{ matrix.service }} image
+        uses: actions/docker/push@v3  # Pushes the image to Docker Hub (or your registry)
+        with:
+          username: lakshanwanniarachchi  # Reference secrets for credentials
           tag: ${{ secrets.DOCKER_USERNAME }}/${{ matrix.service }}:latest
           builder: ${{ matrix.service }}  # Build context for each service
 
-      - name: Run service: foms
+      - name: Run service: ${{ matrix.service }}
         if: ${{ matrix.service == 'foms' }}  # Only run Foms in this job
         uses: docker/action-run@v2  # Starts the container from the built image
         with:
