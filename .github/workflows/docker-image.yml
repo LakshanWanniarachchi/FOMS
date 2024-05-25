@@ -26,11 +26,6 @@ jobs:
           docker build -t lakshanwanniarachchi/foms2:latest .
           docker push lakshanwanniarachchi/foms2:latest
 
-      - name: Build and push nginx
-        if: ${{ matrix.service == 'nginx' }}
-        run: |
-          docker build -t lakshanwanniarachchi/nginx2:latest nginx
-          docker push lakshanwanniarachchi/nginx2:latest
 
       - name: Run service:foms
         if: ${{ matrix.service == 'foms' }}
@@ -38,6 +33,14 @@ jobs:
         with:
           image: lakshanwanniarachchi/foms2:latest
           options: -d -p 5000:5000 -v /path/to/static:/website/templates
+
+      - name: Build and push nginx
+        if: ${{ matrix.service == 'nginx' }}
+        run: |
+          docker build -t lakshanwanniarachchi/nginx2:latest nginx
+          docker push lakshanwanniarachchi/nginx2:latest
+
+    
 
       - name: Run service:nginx
         if: ${{ matrix.service == 'nginx' }}
