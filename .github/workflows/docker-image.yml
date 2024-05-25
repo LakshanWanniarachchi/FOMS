@@ -20,12 +20,19 @@ jobs:
           username: lakshanwanniarachchi
           password: p2hndb@12345
 
-      - name: Build and push ${{ matrix.service }} image
+      - name: foms build
         uses: actions/docker/push@v3  # Pushes the image to Docker Hub (or your registry)
         with:
           username: lakshanwanniarachchi  # Reference secrets for credentials
-          tag: lakshanwanniarachchi/${{ matrix.service }}:latest
-          builder: ${{ matrix.service }}  # Build context for each service
+          tag: lakshanwanniarachchi/foms2:latest
+          builder: .  # Build context for each service
+
+      - name: nginx Build
+        uses: actions/docker/push@v3  # Pushes the image to Docker Hub (or your registry)
+        with:
+          username: lakshanwanniarachchi  # Reference secrets for credentials
+          tag: lakshanwanniarachchi/nginx2:latest
+          builder: nginx  # Build context for each service
 
       - name: Run service:foms
         if: ${{ matrix.service == 'foms' }}  # Only run Foms in this job
