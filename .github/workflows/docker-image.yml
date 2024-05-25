@@ -14,39 +14,34 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Login to Docker registry (optional)
-        uses: docker/login@v2  # Use only if pushing to private registry
+      - name: Login to Docker registry
+        uses: docker/login-action@v2
         with:
-          username: lakshanwanniarachchi
-          password: p2hndb@12345
+          username: "lakshanwanniarachchi"
+          password: "p2hndb@12345"
 
-      - name: foms build
-        uses: actions/docker/push@v3  # Pushes the image to Docker Hub (or your registry)
-        with:
-          username: lakshanwanniarachchi  # Reference secrets for credentials
-          tag: lakshanwanniarachchi/foms2:latest
-          builder: .  # Build context for each service
+      - name: Build and push foms
+        if: ${{ matrix.service == 'foms' }}
+        run: |
+          docker build -t lakshanwanniarachchi/foms2:latest .
+          docker push lakshanwanniarachchi/foms2:latest
 
-      - name: nginx Build
-        uses: actions/docker/push@v3  # Pushes the image to Docker Hub (or your registry)
-        with:
-          username: lakshanwanniarachchi  # Reference secrets for credentials
-          tag: lakshanwanniarachchi/nginx2:latest
-          builder: nginx  # Build context for each service
+      - name: Build and push nginx
+        if: ${{ matrix.service == 'nginx' }}
+        run: |
+          docker build -t lakshanwanniarachchi/nginx2:latest nginx
+          docker push lakshanwanniarachchi/nginx2:latest
 
       - name: Run service:foms
-        if: ${{ matrix.service == 'foms' }}  # Only run Foms in this job
-        uses: docker/action-run@v2  # Starts the container from the built image
+        if: ${{ matrix.service == 'foms' }}
+        uses: addnab/docker-run-action@v3
         with:
           image: lakshanwanniarachchi/foms2:latest
-          ports: "5000:5000"
-          volumes: "/path/to/static:/website/templates"  # Adjust volume path
+          options: -d -p 5000:5000 -v /path/to/static:/website/templates
 
       - name: Run service:nginx
-        if: ${{ matrix.service == 'nginx' }}  # Only run Nginx in this job
-        uses: docker/action-run@v2
+        if: ${{ matrix.service == 'nginx' }}
+        uses: addnab/docker-run-action@v3
         with:
           image: lakshanwanniarachchi/nginx2:latest
-          ports: "80:80"
-          volumes: "/path/to/static:/website/templates"  # Adjust volume path
-          dependencies: docker://${{ secrets.DOCKER_USERNAME }}/foms:latest  # Define dependency on Foms service (optional, if needed)
+          options: -d -p 80:80 -v /path/to/static:/website/templates
