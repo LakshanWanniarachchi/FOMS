@@ -35,7 +35,7 @@ jobs:
           ports: "5000:5000"
           volumes: "/path/to/static:/website/templates"  # Adjust volume path
 
-      - name: Run service: Nginx
+      - name: Run service:nginx
         if: ${{ matrix.service == 'nginx' }}  # Only run Nginx in this job
         uses: docker/action-run@v2
         with:
