@@ -1,0 +1,41 @@
+name: Build and Run Services
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-run:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [foms, nginx]  # List of services to build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build and push ${{ matrix.service }} image
+        uses: actions/docker/push@v3  # Pushes the image to Docker Hub
+        with:
+          username: lakshanwanniarachchi
+          password: p2hndb@12345
+          
+          tag: ${{ secrets.DOCKER_USERNAME }}/${{ matrix.service }}:latest
+          builder: ${{ matrix.service }}  # Build context for each service
+
+      - name: Run service: ${{ matrix.service }}
+        if: ${{ matrix.service == 'foms' }}  # Only run Foms in this job
+        uses: docker/action-run@v2  # Starts the container from the built image
+        with:
+          image: ${{ secrets.DOCKER_USERNAME }}/${{ matrix.service }}:latest
+          ports: "5000:5000"
+          volumes: "/path/to/static:/website/templates"  # Adjust volume path
+
+      - name: Run service: Nginx
+        if: ${{ matrix.service == 'nginx' }}  # Only run Nginx in this job
+        uses: docker/action-run@v2
+        with:
+          image: ${{ secrets.DOCKER_USERNAME }}/nginx:latest
+          ports: "80:80"
+          volumes: "/path/to/static:/website/templates"  # Adjust volume path
+          dependencies: docker://${{ secrets.DOCKER_USERNAME }}/foms:latest  # Define dependency on Foms service (optional, if needed)
