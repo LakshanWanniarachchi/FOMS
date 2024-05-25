@@ -23,7 +23,7 @@ jobs:
           tag: ${{ secrets.DOCKER_USERNAME }}/${{ matrix.service }}:latest
           builder: ${{ matrix.service }}  # Build context for each service
 
-      - name: Run service: ${{ matrix.service }}
+      - name: Run service: foms
         if: ${{ matrix.service == 'foms' }}  # Only run Foms in this job
         uses: docker/action-run@v2  # Starts the container from the built image
         with:
