@@ -24,14 +24,14 @@ jobs:
         uses: actions/docker/push@v3  # Pushes the image to Docker Hub (or your registry)
         with:
           username: lakshanwanniarachchi  # Reference secrets for credentials
-          tag: ${{ secrets.DOCKER_USERNAME }}/${{ matrix.service }}:latest
+          tag: lakshanwanniarachchi/${{ matrix.service }}:latest
           builder: ${{ matrix.service }}  # Build context for each service
 
       - name: Run service:foms
         if: ${{ matrix.service == 'foms' }}  # Only run Foms in this job
         uses: docker/action-run@v2  # Starts the container from the built image
         with:
-          image: ${{ secrets.DOCKER_USERNAME }}/${{ matrix.service }}:latest
+          image: lakshanwanniarachchi/foms2:latest
           ports: "5000:5000"
           volumes: "/path/to/static:/website/templates"  # Adjust volume path
 
@@ -39,7 +39,7 @@ jobs:
         if: ${{ matrix.service == 'nginx' }}  # Only run Nginx in this job
         uses: docker/action-run@v2
         with:
-          image: ${{ secrets.DOCKER_USERNAME }}/nginx:latest
+          image: lakshanwanniarachchi/nginx2:latest
           ports: "80:80"
           volumes: "/path/to/static:/website/templates"  # Adjust volume path
           dependencies: docker://${{ secrets.DOCKER_USERNAME }}/foms:latest  # Define dependency on Foms service (optional, if needed)
