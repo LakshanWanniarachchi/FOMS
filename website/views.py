@@ -2,6 +2,8 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from .models import FiverrOrder, SoundcloudTrack
 from . import db
 
+import requests
+
 from .trackData import get_Soundcloud_track_data
 
 from datetime import datetime, timedelta
@@ -246,8 +248,67 @@ def oderstatus():
 
 
 
+from .getplays import soundcloud_plays
 
 
+@views.route('/soundcloud-plays' , methods=['GET','POST'])
+def  soundcloud_track_plays():
+    if request.method == 'GET':
+        soundcloud_tracks = SoundcloudTrack.query.all()
+        
+        plays_count = request.args.get('plays_count')
+        plays_count = int(plays_count) if plays_count else None
+        
+        
+        
+       
+        # List to store updated tracks
+        tracks_data = []
+        
+        try:
+        
+        
+          for track in soundcloud_tracks:
+            
+            
+             response = soundcloud_plays(track.soundcloud_track, plays_count)
+             
+             if response == 1:
+                 track_data = {
+                     'track_id': track.soundcloud_id,
+                     'url': track.soundcloud_track,
+                     'plays': track.plays,
+                     'likes': track.likes,
+                     'repost': track.repost,
+                     'comments': track.comments,
+                     'followers': track.followers,
+                     'status': 'Success'
+                 }
+             else:
+                    track_data = {
+                        'track_id': track.soundcloud_id,
+                        'url': track.soundcloud_track,
+                        'plays': track.plays,
+                        'likes': track.likes,
+                        'repost': track.repost,
+                        'comments': track.comments,
+                        'followers': track.followers,
+                        'status': 'Failed'
+                    }
+                    
+             tracks_data.append(track_data)
+        
+   
+            
+            
+          return jsonify(tracks_data)
+      
+        except Exception as e:
+            return jsonify({'error': str(e)})
+
+              
+
+              
 
 
          
