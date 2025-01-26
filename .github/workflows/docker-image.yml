@@ -6,7 +6,7 @@ on:
 
 jobs:
   build-and-run:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest  # Corrected typo
     strategy:
       matrix:
         service: [foms, nginx]  # List of services to build
@@ -17,8 +17,8 @@ jobs:
       - name: Login to Docker registry
         uses: docker/login-action@v2
         with:
-          username: "lakshanwanniarachchi"
-          password: "p2hndb@12345"
+          username: ${{ secrets.DOCKER_USERNAME }}  # Use GitHub Secrets
+          password: ${{ secrets.DOCKER_PASSWORD }}  # Use GitHub Secrets
 
       - name: Build and push foms
         if: ${{ matrix.service == 'foms' }}
@@ -26,13 +26,12 @@ jobs:
           docker build -t lakshanwanniarachchi/foms2:latest .
           docker push lakshanwanniarachchi/foms2:latest
 
-
-      - name: Run service:foms
-        if: ${{ matrix.service == 'foms' }}
-        uses: addnab/docker-run-action@v3
-        with:
-          image: lakshanwanniarachchi/foms2:latest
-          options: -d -p 5000:5000 -v /path/to/static:/website/templates
+      # - name: Run service:foms
+      #   if: ${{ matrix.service == 'foms' }}
+      #   uses: addnab/docker-run-action@v3
+      #   with:
+      #     image: lakshanwanniarachchi/foms2:latest
+      #     options: -d -p 5000:5000 -v /path/to/static:/website/templates
 
       - name: Build and push nginx
         if: ${{ matrix.service == 'nginx' }}
@@ -40,11 +39,9 @@ jobs:
           docker build -t lakshanwanniarachchi/nginx2:latest nginx
           docker push lakshanwanniarachchi/nginx2:latest
 
-    
-
-      - name: Run service:nginx
-        if: ${{ matrix.service == 'nginx' }}
-        uses: addnab/docker-run-action@v3
-        with:
-          image: lakshanwanniarachchi/nginx2:latest
-          options: -d -p 80:80 -v /path/to/static:/website/templates
+      # - name: Run service:nginx
+      #   if: ${{ matrix.service == 'nginx' }}
+      #   uses: addnab/docker-run-action@v3
+      #   with:
+      #     image: lakshanwanniarachchi/nginx2:latest
+      #     options: -d -p 80:80 -v /path/to/static:/website/templates
