@@ -13,16 +13,11 @@ COPY requirements.txt .
 # Install the dependencies specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Install Gunicorn
 RUN pip install gunicorn
 
 # Copy the rest of the application code to the working directory
 COPY . .
 
-# Copy the entrypoint script to the working directory
-COPY entrypoint.sh .
-
-# Ensure the entrypoint script is executable
-RUN chmod +x entrypoint.sh
-
-# Set the entrypoint to the script
-ENTRYPOINT ["./entrypoint.sh"]
+# Set the command to run Gunicorn with proper array syntax
+CMD ["gunicorn", "-c", "gunicorn.conf.py", "main:app"]

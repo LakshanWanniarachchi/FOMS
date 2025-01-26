@@ -1,22 +1,21 @@
-version: "1.0"
+version: "3.8" # Updated to a newer Compose file version
 
 services:
   foms:
-    build: .
-
+    build: . # Build from the current directory
     volumes:
-      - static:/website/templates
-
+      - static:/usr/src/app/templates # Corrected the volume path
     ports:
-      - "5000:5000"
+      - "5000:5000" # Map port 5000 on host to port 5000 on container
+
   nginx:
-    build: ./nginx
+    build: ./nginx # Build the Nginx service from the ./nginx directory
     volumes:
-      - static:/website/templates
+      - static:/usr/share/nginx/html # Ensure static files are mounted in the correct location for Nginx
     ports:
-      - "80:80"
+      - "80:80" # Map port 80 on host to port 80 on container
     depends_on:
-      - foms
+      - foms # Ensure Nginx waits for the FOMS service
 
 volumes:
-  static:
+  static: # Define the named volume
