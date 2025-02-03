@@ -5,13 +5,13 @@ services:
     build: . # Build from the current directory
     volumes:
       - static:/usr/src/app/templates # Corrected the volume path
-    image: foms:latest
+    image: latest
     ports:
       - "5000:5000" # Map port 5000 on host to port 5000 on container
 
   nginx:
     build: ./nginx # Build the Nginx service from the ./nginx directory
-    image: foms:latest
+    image: latest
     volumes:
       - static:/usr/share/nginx/html # Ensure static files are mounted in the correct location for Nginx
     ports:
