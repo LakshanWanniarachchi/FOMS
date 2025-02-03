@@ -85,16 +85,16 @@ jobs:
         # Step 5: Tag and Push Docker Images to Docker Hub
       - name: Tag and Push Docker Images
         run: |
-          docker tag foms:latest lakshanwanniarachchi/foms:latest
-          docker tag nginx:latest lakshanwanniarachchi/nginx:latest
-          docker push lakshanwanniarachchi/foms:latest
-          docker push lakshanwanniarachchi/nginx:latest
+          docker tag foms-foms:latest lakshanwanniarachchi/foms-foms:latest
+          docker tag foms-nginx:latest lakshanwanniarachchi/foms-nginx:latest
+          docker push lakshanwanniarachchi/foms-foms:latest
+          docker push lakshanwanniarachchi/foms-nginx:latest
 
       # Step 6: Pull latest Docker images and restart containers
       - name: Pull latest Docker images and restart containers
         run: |
-          docker pull lakshanwanniarachchi/foms3:latest
-          docker pull lakshanwanniarachchi/nginx3:latest
+          docker pull lakshanwanniarachchi/foms-foms:latest
+          docker pull lakshanwanniarachchi/foms-nginx:latest
 
           # Stop and remove existing containers (if any)
           docker-compose -f docker-compose.yml down
