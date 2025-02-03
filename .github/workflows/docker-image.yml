@@ -73,22 +73,22 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Step 3: Build Docker Images
+       # Step 3: Build Docker Images
       - name: Build Docker Images
         run: |
-          docker-compose -f docker-compose.yml build --progress=plain foms nginx
+          docker-compose -f docker-compose.yml build --progress=plain
 
       # Step 4: List Docker Images (Debugging)
       - name: List Docker Images
         run: docker images
 
-      # Step 5: Tag and Push Docker Images to Docker Hub
+        # Step 5: Tag and Push Docker Images to Docker Hub
       - name: Tag and Push Docker Images
         run: |
-          docker tag foms:latest lakshanwanniarachchi/foms3:latest
-          docker tag nginx:latest lakshanwanniarachchi/nginx3:latest
-          docker push lakshanwanniarachchi/foms3:latest
-          docker push lakshanwanniarachchi/nginx3:latest
+          docker tag foms:latest lakshanwanniarachchi/foms:latest
+          docker tag nginx:latest lakshanwanniarachchi/nginx:latest
+          docker push lakshanwanniarachchi/foms:latest
+          docker push lakshanwanniarachchi/nginx:latest
 
       # Step 6: Pull latest Docker images and restart containers
       - name: Pull latest Docker images and restart containers
