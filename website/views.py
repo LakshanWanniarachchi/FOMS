@@ -18,6 +18,12 @@ from sqlalchemy import desc
 views = Blueprint('views', __name__)
 
 
+@views.route('/favicon.ico')
+def favicon():
+    return '', 204  # No Content
+
+
+
 @views.route('/')
 def home():
 
