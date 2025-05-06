@@ -1,5 +1,5 @@
 # Use the official Python image from the Docker Hub
-FROM python:latest-slim
+FROM python:3.9
 
 # Upgrade pip
 RUN pip install --upgrade pip
